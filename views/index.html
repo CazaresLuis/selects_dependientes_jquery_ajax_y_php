@@ -1,0 +1,92 @@
+{% extends 'default_layout.html'%}
+
+{% block ventanasDeDialogo %}
+<div class="hide" id="selectsDependientes" Title="Selects Dependientes">
+
+	<form action="" method="post" id="formSelects" name="formSelects">
+
+		<fieldset id="Selects">
+			
+			<select class="span4" id="id_estado" name="id_estado">
+				<option value="">Seleccione un Estado</option>
+				{{ estados|raw }}
+			</select>
+
+			<select class="span4" id="id_municipio" name="id_municipio" disabled>
+				<option value="">Seleccione un Municipio</option>
+			</select>
+
+		</fieldset>
+
+		<fieldset id="btnAgregar" style="text-align:center;">
+			<input type="submit" id="continuar" value="Continuar" />
+		</fieldset>
+
+		<fieldset id="ajaxLoader" class="ajaxLoader hide centrar-texto">
+			<img src="images/ajax-loader.gif">
+			<p>Espere un momento...</p>
+		</fieldset>
+
+	</form>
+
+</div>
+{% endblock %}
+
+{% block contenidos %}
+<div class="container">
+	<h3>Selects dependientes con jQuery AJAX y PHP</h3>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+<script type="text/javascript">
+	$(function(){
+		$('#selectsDependientes').dialog({
+			autoOpen:true,
+			width:400,
+			height:'auto'
+		});
+
+		$('#formSelects').submit(function(event) {
+			event.preventDefault();
+
+			var dataForm = $('#formSelects').serialize();
+
+			alert(dataForm);
+
+		});
+
+		$('body').on('change', '#id_estado', function(event) {
+			event.preventDefault();
+			
+			var id_estado = $(this).val();
+
+			// ajax para ejecutar la recuperación de contraseña
+            $.ajax({
+              beforeSend: function(){ 
+                  $('#ajaxLoader').removeClass('hide');
+                  $('#id_municipio').removeAttr('disabled');
+                  $('#id_estado,#continuar').attr('disabled','disabled');
+              },
+              cache: false,
+              type: "POST",
+              url:"includes/actions.inc.php",
+              data:"id_estado=" + id_estado + "&action=filtraMunicipios&id=" + Math.random(),
+              success: function(response){
+
+                $('#id_municipio').html(response);
+
+                $('#ajaxLoader').addClass('hide');
+                $('#id_estado,#continuar').removeAttr('disabled');
+
+              },
+              error:function(){
+                  alert('ERROR GENERAL DEL SISTEMA, INTENTE MAS TARDE');
+                  $('#ajaxLoader').addClass('hide');
+              }
+            });
+
+		});
+	});
+</script>
+{% endblock %}

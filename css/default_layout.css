@@ -1,0 +1,28 @@
+.login-form{
+			padding: 15px;
+}
+
+.usuario{
+	font-size: 12px;
+}
+
+label.error {
+    color: #B94A48;
+    font-size: 0.9em;
+}
+
+.centrar-texto{
+	text-align: center;
+}
+
+.opciones{
+	background-color: #EEEEEE;
+	border-radius: 6px 6px 6px 6px;
+	color: inherit;
+	font-size: 15px;
+	margin-bottom: 20px;
+}
+
+.negritas{
+	font-weight: bold;
+}

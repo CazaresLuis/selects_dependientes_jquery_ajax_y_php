@@ -1,0 +1,6 @@
+
+{% for estado in listaEstados %}
+	<option value="{{ estado.id_estado }}">{{ estado.edo_nombre }}</option>
+{% else %}
+	<option value="">No hay lista de Estados</option>
+{% endfor %}
